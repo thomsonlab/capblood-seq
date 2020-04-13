@@ -30,10 +30,9 @@ class Capblood_Seq_Dataset:
         for sample_name in common.SAMPLE_NAMES:
 
             workspace_path = os.path.join(self._data_directory, sample_name)
-
             if self._pipeline_name:
                 ged = Gene_Expression_Dataset(
-                    workspace_path, self._pipeline_name)
+                    workspace_path, name=self._pipeline_name)
             else:
                 ged = Gene_Expression_Dataset(workspace_path)
 
@@ -113,6 +112,25 @@ class Capblood_Seq_Dataset:
             combined_transcript_counts, axis=0)
 
         return combined_transcript_counts
+
+    def get_num_cells(
+            self,
+            sample,
+            cell_type=None,
+            subject_id=None):
+
+        filter_labels = []
+
+        if cell_type is not None:
+            filter_labels.append(cell_type)
+        if subject_id is not None:
+            if subject_id not in self._sample_datasets[sample].get_labels():
+                return 0
+            filter_labels.append(subject_id)
+
+        cells = self._sample_datasets[sample].get_cells(filter_labels)
+
+        return len(cells)
 
     def get_transcript_counts(
             self,

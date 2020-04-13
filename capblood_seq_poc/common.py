@@ -21,12 +21,16 @@ CELL_TYPES = [
     "T Cells"
 ]
 
-CELL_SUBTYPES = [
-    "CD4 T Cells",
-    "CD8 T Cells",
-    "CD14 Monocytes",
-    "CD16 Monocytes"
-]
+CELL_SUBTYPES = {
+    "T Cells": [
+        "CD4",
+        "CD8"
+    ],
+    "Monocytes": [
+        "CD14",
+        "CD16"
+    ]
+}
 
 
 def get_datasets(gene_filter_threshold=None, cell_types=None):
