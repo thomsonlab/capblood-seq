@@ -3,7 +3,7 @@ from matplotlib import pyplot
 
 from . import common
 
-CELL_TYPE_COLOR_MAP = {
+CELL_TYPE_HIERARCHICAL_COLORS = {
     "T Cells": "rgba(0, 104, 55, 255)",
     "CD8 T Cells": "rgba(0, 145, 68, 255)",
     "CD4 T Cells": "rgba(141, 198, 67, 255)",
@@ -14,6 +14,19 @@ CELL_TYPE_COLOR_MAP = {
     "NK Cells": "rgba(65, 36, 20, 255)",
     "Dendritic Cells": "rgba(249, 237, 37, 255)"
 }
+
+cell_type_colormap = pyplot.cm.get_cmap("inferno")
+color_list = cell_type_colormap(numpy.linspace(0, 0.9, len(common.CELL_TYPES)))
+
+CELL_TYPE_COLORS = {}
+
+for cell_type_index, cell_type in enumerate(sorted(common.CELL_TYPES)):
+    CELL_TYPE_COLORS[cell_type] = \
+        "rgba(%.2f, %.2f, %.2f, %.2f)" % tuple(color_list[cell_type_index])
+
+
+AM_COLOR = "blue"
+PM_COLOR = "red"
 
 SUBJECT_ID_COLORS = {}
 

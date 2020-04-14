@@ -54,6 +54,46 @@ class Capblood_Seq_Dataset:
     def get_num_genes(self):
         return len(self._gene_list)
 
+    def filter_genes_by_percent_abundance(self, percent, any_sample=False):
+
+        max_ratio = numpy.zeros((len(self._gene_list),))
+
+        if any_sample:
+
+            for sample_name, ged in self._sample_datasets.items():
+                for cell_type_index, cell_type in enumerate(common.CELL_TYPES):
+                    cell_gene_counts = \
+                        ged.get_cell_transcript_counts(filter_labels=cell_type)
+                    num_cells_cell_type = cell_gene_counts.shape[0]
+                    num_above_zero_cell_type = (
+                            cell_gene_counts.to_array() > 0).sum(axis=0)
+                    cell_type_ratio = \
+                        num_above_zero_cell_type/num_cells_cell_type
+
+                    max_ratio = numpy.maximum(cell_type_ratio, max_ratio)
+        else:
+            for cell_type_index, cell_type in enumerate(common.CELL_TYPES):
+
+                num_above_zero = numpy.zeros((len(self._gene_list),))
+                num_cells = numpy.zeros((len(self._gene_list),))
+
+                for sample_name, ged in self._sample_datasets.items():
+                    cell_gene_counts = \
+                        ged.get_cell_transcript_counts(filter_labels=cell_type)
+                    num_cells_cell_type = cell_gene_counts.shape[0]
+                    num_above_zero_cell_type = (
+                            cell_gene_counts.to_array() > 0).sum(axis=0)
+                    num_above_zero += num_above_zero_cell_type
+                    num_cells += num_cells_cell_type
+
+                cell_type_ratio = num_above_zero/num_cells
+                max_ratio = numpy.maximum(cell_type_ratio, max_ratio)
+
+        self._gene_list = numpy.array(self._gene_list)[max_ratio >= percent]
+
+        for sample_name, ged in self._sample_datasets.items():
+            ged.filter_genes(self._gene_list)
+
     def filter_unlabeled_cells(self, labels=None):
         """
         Inspect all the cells in each sample and filter in place any that are
@@ -137,7 +177,8 @@ class Capblood_Seq_Dataset:
             sample,
             cell_type=None,
             subject_id=None,
-            normalized=False):
+            normalized=False,
+            genes=None):
 
         filter_labels = []
 
@@ -148,8 +189,14 @@ class Capblood_Seq_Dataset:
                 return None
             filter_labels.append(subject_id)
 
-        sample_transcript_counts = \
-            self._sample_datasets[sample].get_cell_transcript_counts(
-                filter_labels=filter_labels, normalized=normalized)
+        if genes is None:
+            sample_transcript_counts = \
+                self._sample_datasets[sample].get_cell_transcript_counts(
+                    filter_labels=filter_labels, normalized=normalized)
+        else:
+            sample_transcript_counts = \
+                self._sample_datasets[sample].get_gene_counts(
+                    genes, filter_labels=filter_labels, normalized=normalized
+                )
 
         return sample_transcript_counts
