@@ -174,7 +174,7 @@ class Capblood_Seq_Dataset:
 
     def get_transcript_counts(
             self,
-            sample,
+            sample=None,
             cell_type=None,
             subject_id=None,
             normalized=False,
@@ -189,8 +189,38 @@ class Capblood_Seq_Dataset:
                 return None
             filter_labels.append(subject_id)
 
-        sample_transcript_counts = \
-            self._sample_datasets[sample].get_cell_transcript_counts(
-                filter_labels=filter_labels, normalized=normalized, genes=genes)
+        if sample is None:
+            if genes is None:
+                num_genes = len(self._gene_list)
+            elif isinstance(genes, str):
+                num_genes = 1
+            elif hasattr(genes, "__len__"):
+                num_genes = len(genes)
 
-        return sample_transcript_counts
+            transcript_counts = numpy.zeros((0, num_genes))
+
+            for sample in common.SAMPLE_NAMES:
+                sample_transcript_counts = self.get_transcript_counts(
+                    sample=sample,
+                    cell_type=cell_type,
+                    subject_id=subject_id,
+                    normalized=normalized,
+                    genes=genes
+                )
+
+                transcript_counts = numpy.concatenate(
+                    (
+                        transcript_counts,
+                        sample_transcript_counts.to_array().reshape(
+                            (-1, num_genes))
+                    )
+                )
+
+            return transcript_counts
+        else:
+            sample_transcript_counts = \
+                self._sample_datasets[sample].get_cell_transcript_counts(
+                    filter_labels=filter_labels, normalized=normalized,
+                    genes=genes)
+
+            return sample_transcript_counts
