@@ -2,21 +2,25 @@ from setuptools import setup
 
 setup(
     name="capblood-seq",
-    version="0.1.0",
+    version="0.2.0",
     packages=[
         "capblood_seq",
         "capblood_seq.config",
         "capblood_seq.resources"
     ],
+    author="David Brown",
+    author_email="dibidave@gmail.com",
+    url="https://github.com/thomsonlab/capblood-seq",
     install_requires=[
         "pandas>=0.23.0",
-        "scrapi>=0.5.0",
+        "scrapi>=0.5.1",
         "numpy",
         "plotly",
         "sklearn",
         "scipy",
         "statsmodels",
-        "matplotlib"
+        "matplotlib",
+        "pepars"
     ],
     package_data={
         "capblood_seq.config": [

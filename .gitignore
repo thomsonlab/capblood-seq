@@ -1,5 +1,6 @@
 /examples/data/
 /examples/figures/
+/examples/reports/
 *.pyc
 .ipynb_checkpoints/
 __pycache__/

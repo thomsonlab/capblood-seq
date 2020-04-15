@@ -26,6 +26,8 @@ SUBJECT_ID_COLORS = {}
 AM_COLOR = None
 PM_COLOR = None
 
+DATA_FILES = []
+
 
 def load_config(file_path=None):
 
@@ -39,6 +41,7 @@ def load_config(file_path=None):
     global AM_COLOR
     global PM_COLOR
     global CELL_TYPE_HIERARCHICAL_COLORS
+    global DATA_FILES
 
     if file_path is None:
         file_path = os.path.join(os.path.dirname(__file__), "default.json")
@@ -61,6 +64,8 @@ def load_config(file_path=None):
             PM_COLOR = value
         elif key == "CELL_TYPE_HIERARCHICAL_COLORS":
             CELL_TYPE_HIERARCHICAL_COLORS = value
+        elif key == "DATA_FILES":
+            DATA_FILES = value
         else:
             CONFIG[key] = value
 

@@ -1,6 +1,8 @@
 import os
+import zipfile
 
 import numpy
+from pepars.fileio import fileio
 from scrapi.dataset import Gene_Expression_Dataset
 
 from . import config
@@ -20,6 +22,7 @@ class Capblood_Seq_Dataset:
         self._gene_list = []
         self._is_loaded = False
         self._pipeline_name = pipeline_name
+        self._is_initialized = False
 
     def load(self):
         """
@@ -27,6 +30,33 @@ class Capblood_Seq_Dataset:
 
         :return: None
         """
+
+        # Download all data files associated with this dataset's config
+        for data_file in config.DATA_FILES:
+
+            local_file_path_elements = data_file[0:-1]
+            download_path = os.path.join(
+                self._data_directory,
+                *local_file_path_elements
+            )
+            remote_path = data_file[-1]
+
+            if not os.path.exists(download_path):
+                print("Downloading %s" % download_path)
+                fileio.download_remote_file(remote_path, download_path)
+            else:
+                print("Skipping %s, already exists" % download_path)
+
+            if download_path.endswith(".zip"):
+                with zipfile.ZipFile(download_path, "r") as file:
+                    for entry in file.infolist():
+                        extract_path = os.path.join(self._data_directory,
+                                                    entry.filename)
+                        if entry.is_dir() and not os.path.exists(extract_path):
+                            os.makedirs(extract_path)
+                        if os.path.exists(extract_path):
+                            continue
+                        file.extract(entry, path=self._data_directory)
 
         if self._is_loaded:
             return
