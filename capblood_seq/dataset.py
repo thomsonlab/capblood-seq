@@ -44,8 +44,6 @@ class Capblood_Seq_Dataset:
             if not os.path.exists(download_path):
                 print("Downloading %s" % download_path)
                 fileio.download_remote_file(remote_path, download_path)
-            else:
-                print("Skipping %s, already exists" % download_path)
 
             if download_path.endswith(".zip"):
                 with zipfile.ZipFile(download_path, "r") as file:
