@@ -1,2 +1,3 @@
+from . import config
 from . import dataset
-from . import viz
+from .dataset import load_dataset

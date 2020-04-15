@@ -13,7 +13,7 @@ pip install capblood-seq
 
 ### Preprocessing
 - Cell Ranger v3.0.0 (https://support.10xgenomics.com/single-cell-gene-expression/software/downloads/3.0/)
-- scrapi v0.5.0 ()
+- scrapi v0.5.0 (https://github.com/thomsonlab/scrapi)
 
 ### Demultiplexing
 - 23andme2vcf (https://github.com/arrogantrobot/23andme2vcf/,
@@ -25,9 +25,6 @@ commit @5f5c1a557eb9d65f8b7854b6ca4c898713e86c04)
 - vcftools (https://github.com/vcftools/vcftools.git,
 commit @15db94b968d963e1b5188b8918b6659b25798ec1)
 - tabix 1.7-2
-
-### Analysis
-
 
 ## Demultiplexing
 

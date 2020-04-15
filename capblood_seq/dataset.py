@@ -3,12 +3,18 @@ import os
 import numpy
 from scrapi.dataset import Gene_Expression_Dataset
 
-from . import common
+from . import config
+
+DATASET = None
 
 
 class Capblood_Seq_Dataset:
 
-    def __init__(self, data_directory="data", pipeline_name=None):
+    def __init__(
+            self,
+            data_directory="data",
+            pipeline_name=None
+    ):
         self._data_directory = data_directory
         self._sample_datasets = {}
         self._gene_list = []
@@ -27,7 +33,7 @@ class Capblood_Seq_Dataset:
 
         intersecting_genes = None
 
-        for sample_name in common.SAMPLE_NAMES:
+        for sample_name in config.SAMPLE_NAMES:
 
             workspace_path = os.path.join(self._data_directory, sample_name)
             if self._pipeline_name:
@@ -61,7 +67,7 @@ class Capblood_Seq_Dataset:
         if any_sample:
 
             for sample_name, ged in self._sample_datasets.items():
-                for cell_type_index, cell_type in enumerate(common.CELL_TYPES):
+                for cell_type_index, cell_type in enumerate(config.CELL_TYPES):
                     cell_gene_counts = \
                         ged.get_cell_transcript_counts(filter_labels=cell_type)
                     num_cells_cell_type = cell_gene_counts.shape[0]
@@ -72,7 +78,7 @@ class Capblood_Seq_Dataset:
 
                     max_ratio = numpy.maximum(cell_type_ratio, max_ratio)
         else:
-            for cell_type_index, cell_type in enumerate(common.CELL_TYPES):
+            for cell_type_index, cell_type in enumerate(config.CELL_TYPES):
 
                 num_above_zero = numpy.zeros((len(self._gene_list),))
                 num_cells = numpy.zeros((len(self._gene_list),))
@@ -100,13 +106,13 @@ class Capblood_Seq_Dataset:
         not labeled by one of the provided labels.
 
         :param labels: The labels to keep. By default, filters all cells that
-            don't have one of capblood_seq.common.SUBJECT_IDS or
-            capblood_seq.common.CELL_TYPES
+            don't have one of capblood_seq.config.SUBJECT_IDS or
+            capblood_seq.config.CELL_TYPES
         :return: None
         """
 
         if labels is None:
-            labels = common.CELL_TYPES + common.SUBJECT_IDS
+            labels = config.CELL_TYPES + config.SUBJECT_IDS
 
         for sample, ged in self._sample_datasets.items():
             ged.filter_unlabeled_cells(labels)
@@ -199,7 +205,7 @@ class Capblood_Seq_Dataset:
 
             transcript_counts = numpy.zeros((0, num_genes))
 
-            for sample in common.SAMPLE_NAMES:
+            for sample in config.SAMPLE_NAMES:
                 sample_transcript_counts = self.get_transcript_counts(
                     sample=sample,
                     cell_type=cell_type,
@@ -224,3 +230,25 @@ class Capblood_Seq_Dataset:
                     genes=genes)
 
             return sample_transcript_counts
+
+
+def load_dataset(
+    data_directory="data",
+    config_file_path=None,
+    pipeline_name=None
+):
+
+    global DATASET
+
+    if DATASET is not None:
+        del DATASET
+
+    config.load_config(config_file_path)
+
+    DATASET = Capblood_Seq_Dataset(
+        data_directory=data_directory,
+        pipeline_name=pipeline_name
+    )
+    DATASET.load()
+
+    return DATASET

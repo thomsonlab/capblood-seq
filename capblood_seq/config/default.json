@@ -1,0 +1,45 @@
+{
+    "SAMPLE_NAMES": [
+        "AM1",
+        "PM1",
+        "AM2",
+        "PM2",
+        "AM3",
+        "PM3"
+    ],
+    "SUBJECT_IDS": [
+        "S1",
+        "S2",
+        "S3",
+        "S4"
+    ],
+    "CELL_TYPES": [
+        "B Cells",
+        "Monocytes",
+        "NK Cells",
+        "T Cells"
+    ],
+    "CELL_SUBTYPES": {
+        "T Cells": [
+            "CD4",
+            "CD8"
+        ],
+        "Monocytes": [
+            "CD14",
+            "CD16"
+        ]
+    },
+    "CELL_TYPE_HIERARCHICAL_COLORS": {
+        "T Cells": "rgba(0, 104, 55, 255)",
+        "CD8 T Cells": "rgba(0, 145, 68, 255)",
+        "CD4 T Cells": "rgba(141, 198, 67, 255)",
+        "Monocytes": "rgba(170, 39, 45, 255)",
+        "CD14 Monocytes": "rgba(230, 59, 67, 255)",
+        "CD16 Monocytes": "rgba(237, 37, 40, 255)",
+        "B Cells": "rgba(44, 55, 144, 255)",
+        "NK Cells": "rgba(65, 36, 20, 255)",
+        "Dendritic Cells": "rgba(249, 237, 37, 255)"
+    },
+    "AM_COLOR": "blue",
+    "PM_COLOR": "red"
+}
