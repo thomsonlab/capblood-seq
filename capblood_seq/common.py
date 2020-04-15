@@ -42,7 +42,7 @@ def get_datasets(gene_filter_threshold=None, cell_types=None):
         ratio in at least one of the defined cell types
 
     :param cell_types: If using gene_filter_threshold, specify the cell types
-        to consider. Default: capblood_seq_poc.common.CELL_TYPES
+        to consider. Default: capblood_seq.common.CELL_TYPES
 
     :return: A dictionary of samples and their associated Gene Expression
         Dataset object (from SCRAPi)

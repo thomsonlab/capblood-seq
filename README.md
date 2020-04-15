@@ -1,11 +1,11 @@
-# Capillary Blood Sequencing (capblood-seq) Proof of Concept (PoC)
+# Capillary Blood Sequencing (capblood-seq)
 
 This is a companion repository and package for the capillary blood single-cell
 sequencing project from Caltech.
 
 ## Installing
 ```
-pip install capblood-seq-poc
+pip install capblood-seq
 ```
 
 ## Prerequisites
@@ -49,23 +49,23 @@ And we use vcftools' vcf-merge to merge them into a single VCF file:
 (we provide a custom column headers file, headers.txt, to give proper subject
 column names)
 ```
-vcf-merge S1.vcf.gz S2.vcf.gz S3.vcf.gz S4.vcf.gz -H "headers.txt" > capblood_seq_poc.vcf
+vcf-merge S1.vcf.gz S2.vcf.gz S3.vcf.gz S4.vcf.gz -H "headers.txt" > capblood_seq.vcf
 ```
 
 Next we remove 'chr' from the beginning of each line:
 ```
-sed -i 's/^chr//' capblood_seq_poc.vcf
+sed -i 's/^chr//' capblood_seq.vcf
 ```
 
 And then sort the entries lexicographically: (thank you https://www.biostars.org/p/133487/#133489)
 
 ```
-grep '^#' capblood_seq_poc.vcf > capblood_seq_poc_sorted.vcf && grep -v '^#' capblood_seq_poc.vcf | LC_ALL=C sort -t $'\t' -k1,1 -k2,2n >> capblood_seq_poc_sorted.vcf
+grep '^#' capblood_seq.vcf > capblood_seq_sorted.vcf && grep -v '^#' capblood_seq.vcf | LC_ALL=C sort -t $'\t' -k1,1 -k2,2n >> capblood_seq_sorted.vcf
 ```
 
 And finally compress the new combined VCF:
 ```
-bgzip capblood_seq_poc_sorted.vcf
+bgzip capblood_seq_sorted.vcf
 ```
 
 We can then use this to generate a cell barcode label file using demuxlet
@@ -73,7 +73,7 @@ for each sample. This requires the raw possorted_genome_bam.bam file from
 running the 10X Cell Ranger pipeline
 
 ```
-demuxlet --sam possorted_genome_bam.bam --tag-group CB --tag-UMI UB --vcf capblood_seq_poc_sorted.vcf.gz --out demuxed --field GT
+demuxlet --sam possorted_genome_bam.bam --tag-group CB --tag-UMI UB --vcf capblood_seq_sorted.vcf.gz --out demuxed --field GT
 ```
 
 ## Preprocessing
