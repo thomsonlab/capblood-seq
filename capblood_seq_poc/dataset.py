@@ -189,14 +189,8 @@ class Capblood_Seq_Dataset:
                 return None
             filter_labels.append(subject_id)
 
-        if genes is None:
-            sample_transcript_counts = \
-                self._sample_datasets[sample].get_cell_transcript_counts(
-                    filter_labels=filter_labels, normalized=normalized)
-        else:
-            sample_transcript_counts = \
-                self._sample_datasets[sample].get_gene_counts(
-                    genes, filter_labels=filter_labels, normalized=normalized
-                )
+        sample_transcript_counts = \
+            self._sample_datasets[sample].get_cell_transcript_counts(
+                filter_labels=filter_labels, normalized=normalized, genes=genes)
 
         return sample_transcript_counts
