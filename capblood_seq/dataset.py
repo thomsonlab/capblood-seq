@@ -24,6 +24,10 @@ class Capblood_Seq_Dataset:
         self._pipeline_name = pipeline_name
         self._is_initialized = False
 
+    @property
+    def data_directory(self):
+        return self._data_directory
+
     def load(self):
         """
         Load all sample workspaces.
@@ -87,6 +91,10 @@ class Capblood_Seq_Dataset:
 
     def get_num_genes(self):
         return len(self._gene_list)
+
+    @property
+    def gene_list(self):
+        return self._gene_list
 
     def filter_genes_by_percent_abundance(self, percent, any_sample=False):
 
@@ -206,6 +214,23 @@ class Capblood_Seq_Dataset:
 
         return len(cells)
 
+    def get_cells(
+            self,
+            sample,
+            cell_type=None,
+            subject_id=None):
+
+        filter_labels = []
+
+        if cell_type is not None:
+            filter_labels.append(cell_type)
+        if subject_id is not None:
+            if subject_id not in self._sample_datasets[sample].get_labels():
+                return set()
+            filter_labels.append(subject_id)
+
+        return self._sample_datasets[sample].get_cells(filter_labels)
+
     def get_transcript_counts(
             self,
             sample=None,
@@ -260,7 +285,7 @@ class Capblood_Seq_Dataset:
             return sample_transcript_counts
 
 
-def load_dataset(
+def init_dataset(
     data_directory="data",
     config_file_path=None,
     pipeline_name=None
@@ -277,6 +302,28 @@ def load_dataset(
         data_directory=data_directory,
         pipeline_name=pipeline_name
     )
+
+    return DATASET
+
+
+def load_dataset(
+    data_directory="data",
+    config_file_path=None,
+    pipeline_name=None
+):
+
+    init_dataset(
+        data_directory=data_directory,
+        config_file_path=config_file_path,
+        pipeline_name=pipeline_name
+    )
+
     DATASET.load()
 
+    return DATASET
+
+
+def get_dataset():
+
+    global DATASET
     return DATASET

@@ -13,6 +13,12 @@
         "S3",
         "S4"
     ],
+    "SUBJECT_ID_GENDERS": {
+        "S1": "M",
+        "S2": "M",
+        "S3": "F",
+        "S4": "F"
+    },
     "CELL_TYPES": [
         "B Cells",
         "Monocytes",
@@ -57,5 +63,16 @@
         ["PM3", "labels.csv", "https://data.caltech.edu/tindfiles/serve/3ab9081d-e716-47ed-9f11-edaed38cf5ec/"],
         ["capblood_seq_processed.zip", "https://data.caltech.edu/tindfiles/serve/3814f4d4-a31f-4dca-84ae-7e2beec372c5/"],
         ["genomes", "headers.txt", "https://data.caltech.edu/tindfiles/serve/985d67ca-b735-49e5-af84-2dcd2d09dbdc/"]
+    ],
+    "PATHWAY_LABELS": [
+        "Metabolism",
+        "Genetic Information Processing",
+        "Organismal Systems",
+        "Cellular Processes",
+        "Diseases – Other",
+        "Signaling",
+        "Diseases – Infectious",
+        "Immune system",
+        "Diseases – Immune"
     ]
 }

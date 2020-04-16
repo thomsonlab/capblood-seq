@@ -26,7 +26,12 @@ SUBJECT_ID_COLORS = {}
 AM_COLOR = None
 PM_COLOR = None
 
+SUBJECT_ID_GENDERS = {}
+
 DATA_FILES = []
+
+PATHWAY_LABELS = []
+PATHWAY_LABEL_COLORS = {}
 
 
 def load_config(file_path=None):
@@ -42,6 +47,8 @@ def load_config(file_path=None):
     global PM_COLOR
     global CELL_TYPE_HIERARCHICAL_COLORS
     global DATA_FILES
+    global PATHWAY_CLASS_COLORS
+    global PATHWAY_LABELS
 
     if file_path is None:
         file_path = os.path.join(os.path.dirname(__file__), "default.json")
@@ -66,6 +73,8 @@ def load_config(file_path=None):
             CELL_TYPE_HIERARCHICAL_COLORS = value
         elif key == "DATA_FILES":
             DATA_FILES = value
+        elif key == "PATHWAY_LABELS":
+            PATHWAY_LABELS = value
         else:
             CONFIG[key] = value
 
@@ -82,6 +91,13 @@ def load_config(file_path=None):
     for subject_index, subject_id in enumerate(sorted(SUBJECT_IDS)):
         SUBJECT_ID_COLORS[subject_id] = \
             "rgba(%.2f, %.2f, %.2f, %.2f)" % tuple(color_list[subject_index])
+
+    pathway_colormap = pyplot.cm.get_cmap("inferno")
+    color_list = pathway_colormap(numpy.linspace(0, 0.9, len(PATHWAY_LABELS)))
+
+    for class_index, class_label in enumerate(PATHWAY_LABELS):
+        PATHWAY_LABEL_COLORS[class_label] = \
+            "rgba(%.2f, %.2f, %.2f, %.2f)" % tuple(color_list[class_index])
 
 
 def get(key):
