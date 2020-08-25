@@ -39,6 +39,7 @@ def load_config(file_path=None):
     global CONFIG
     global SAMPLE_NAMES
     global SUBJECT_IDS
+    global SUBJECT_ID_GENDERS
     global CELL_TYPES
     global CELL_SUBTYPES
     global CELL_TYPE_COLORS
@@ -47,8 +48,8 @@ def load_config(file_path=None):
     global PM_COLOR
     global CELL_TYPE_HIERARCHICAL_COLORS
     global DATA_FILES
-    global PATHWAY_CLASS_COLORS
     global PATHWAY_LABELS
+    global PATHWAY_LABEL_COLORS
 
     if file_path is None:
         file_path = os.path.join(os.path.dirname(__file__), "default.json")
@@ -75,6 +76,8 @@ def load_config(file_path=None):
             DATA_FILES = value
         elif key == "PATHWAY_LABELS":
             PATHWAY_LABELS = value
+        elif key == "SUBJECT_ID_GENDERS":
+            SUBJECT_ID_GENDERS = value
         else:
             CONFIG[key] = value
 
