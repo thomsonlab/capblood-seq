@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="capblood-seq",
-    version="0.2.4",
+    version="1.0.0",
     packages=[
         "capblood_seq",
         "capblood_seq.config",
