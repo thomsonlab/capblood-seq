@@ -62,7 +62,10 @@
         ["PM3", "raw_feature_bc_matrix.h5", "https://data.caltech.edu/tindfiles/serve/400caf5c-bd7a-491c-bfd6-aa8d0250d759/"],
         ["PM3", "labels.csv", "https://data.caltech.edu/tindfiles/serve/3ab9081d-e716-47ed-9f11-edaed38cf5ec/"],
         ["capblood_seq_processed.zip", "https://data.caltech.edu/tindfiles/serve/3814f4d4-a31f-4dca-84ae-7e2beec372c5/"],
-        ["genomes", "headers.txt", "https://data.caltech.edu/tindfiles/serve/985d67ca-b735-49e5-af84-2dcd2d09dbdc/"]
+        ["Hashimoto2019", "01.UMI.txt.gz", "http://gerg.gsc.riken.jp/SC2018/01.UMI.txt.gz"],
+        ["Hashimoto2019", "03.Cell.Barcodes.txt.gz", "http://gerg.gsc.riken.jp/SC2018/03.Cell.Barcodes.txt.gz"],
+        ["Hu2019", "hu_smith.h5ad", "https://caltech.box.com/shared/static/adif70e1vx5a3qat5ni6b9tukdp5u910.h5ad"],
+        ["Lee2020", "lee_GSE1496889.h5ad", "https://caltech.box.com/shared/static/8xqqy0s1qptuxitylrccrov3mnwa9uhk.h5ad"]
     ],
     "PATHWAY_LABELS": [
         "Metabolism",

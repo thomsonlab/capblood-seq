@@ -1,5 +1,7 @@
 import os
 import zipfile
+import gzip
+import shutil
 
 import numpy
 from pepars.fileio import fileio
@@ -59,6 +61,10 @@ class Capblood_Seq_Dataset:
                         if os.path.exists(extract_path):
                             continue
                         file.extract(entry, path=self._data_directory)
+            if download_path.endswith(".gz"):
+                with gzip.open(download_path, "rb") as in_file:
+                    with open(download_path[:-3], "wb") as out_file:
+                        shutil.copyfileobj(in_file, out_file)
 
         if self._is_loaded:
             return
