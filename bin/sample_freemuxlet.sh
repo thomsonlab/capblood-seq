@@ -1,9 +1,13 @@
 SAMPLE=AM1
 NUM_CORES=31
+# The location of the alignment files output by 10X Cell Ranger (specifically the possorted_genome_bam.bam and possorted_bam_bam.bam.bai files). Within this folder there should be a subfolder for each sample
+AWS_S3_ALIGNMENT_PATH=s3://thomsonlab/capblood-seq-demux
+# Path to download the 10X barcode whitelist
+BARCODES_FILE_PATH=https://caltech.box.com/shared/static/evjhzh50rk6zk2jtjpfg3myddxxmnqn5.txt
 
 mkdir -p barcodes
-wget https://caltech.box.com/shared/static/evjhzh50rk6zk2jtjpfg3myddxxmnqn5.txt -O barcodes/3M-february-2018.txt
-aws s3 sync s3://thomsonlab/capblood-seq-demux/$SAMPLE/ aligned/
+wget $BARCODES_FILE_PATH -O barcodes/3M-february-2018.txt
+aws s3 sync $AWS_S3_ALIGNMENT_PATH/$SAMPLE/ aligned/
 wget https://cf.10xgenomics.com/supp/cell-exp/refdata-cellranger-hg19-1.2.0.tar.gz
 tar -xzf refdata-cellranger-hg19-1.2.0.tar.gz
 rm refdata-cellranger-hg19-1.2.0.tar.gz
@@ -84,7 +88,7 @@ python3 fasta_generate_regions.py ../../refdata-cellranger-hg19-1.2.0/fasta/geno
 cd ~
 if [ ! -f aligned/combined.vcf ]; then
 	./freebayes-parallel ../../refdata-cellranger-hg19-1.2.0/fasta/regions.fai $NUM_CORES -f ../../refdata-cellranger-hg19-1.2.0/fasta/genome.fa ../../aligned/possorted_genome_bam.bam > ../../aligned/combined.vcf
-	aws s3 cp ../../aligned/combined.vcf s3://thomsonlab/capblood-seq-demux/$SAMPLE/
+	aws s3 cp ../../aligned/combined.vcf $AWS_S3_ALIGNMENT_PATH/$SAMPLE/
 fi
 
 cd ~
@@ -103,4 +107,4 @@ for pid in ${pids[*]}; do
 done
 
 cd ~
-aws s3 sync demux s3://thomsonlab/capblood-seq-demux/$SAMPLE/demux/
+aws s3 sync demux $AWS_S3_ALIGNMENT_PATH/$SAMPLE/demux/
