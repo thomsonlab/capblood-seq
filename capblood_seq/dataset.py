@@ -54,13 +54,23 @@ class Capblood_Seq_Dataset:
             if download_path.endswith(".zip"):
                 with zipfile.ZipFile(download_path, "r") as file:
                     for entry in file.infolist():
-                        extract_path = os.path.join(self._data_directory,
-                                                    entry.filename)
+                        
+                        filename_parts = entry.filename.split(os.sep)
+                        
+                        # If the file path includes the same directory as the
+                        # zip file, don't extract it into an extra layer
+                        if filename_parts[0] == data_file[-2][0:-4]:
+                            extract_path = os.path.join(self._data_directory,
+                                *filename_parts[1:])
+                        else: 
+                            extract_path = os.path.join(self._data_directory,
+                                                        *filename_parts)
                         if entry.is_dir() and not os.path.exists(extract_path):
                             os.makedirs(extract_path)
                         if os.path.exists(extract_path):
                             continue
-                        file.extract(entry, path=self._data_directory)
+                        with open(extract_path, "wb") as target_file:
+                            target_file.write(file.read(entry))
             if download_path.endswith(".gz"):
                 with gzip.open(download_path, "rb") as in_file:
                     with open(download_path[:-3], "wb") as out_file:
