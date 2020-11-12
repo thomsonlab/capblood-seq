@@ -20,7 +20,8 @@ setup(
         "scipy",
         "statsmodels",
         "matplotlib",
-        "pepars"
+        "pepars",
+        "scvi==0.6.8"
     ],
     package_data={
         "capblood_seq.config": [
