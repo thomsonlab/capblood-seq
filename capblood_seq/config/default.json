@@ -64,8 +64,8 @@
         ["capblood_seq_processed.zip", "https://data.caltech.edu/tindfiles/serve/7ae05192-f6fd-4c03-a550-62c3d4248b26/"],
         ["Hashimoto2019", "01.UMI.txt.gz", "http://gerg.gsc.riken.jp/SC2018/01.UMI.txt.gz"],
         ["Hashimoto2019", "03.Cell.Barcodes.txt.gz", "http://gerg.gsc.riken.jp/SC2018/03.Cell.Barcodes.txt.gz"],
-        ["Hu2019", "hu_smith.h5ad", "https://caltech.box.com/shared/static/adif70e1vx5a3qat5ni6b9tukdp5u910.h5ad"],
-        ["Lee2020", "lee_GSE1496889.h5ad", "https://caltech.box.com/shared/static/8xqqy0s1qptuxitylrccrov3mnwa9uhk.h5ad"]
+        ["Hu2019", "hu_smith.h5ad", "https://data.caltech.edu/tindfiles/serve/40ded7f4-e0d3-4b38-beed-b1ed1c54473d/"],
+        ["Lee2020", "lee_GSE1496889.h5ad", "https://data.caltech.edu/tindfiles/serve/7ec862e6-7f18-4d08-819b-9ab2e01ac50e/"]
     ],
     "PATHWAY_LABELS": [
         "Metabolism",
